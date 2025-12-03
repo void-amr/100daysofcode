@@ -1,0 +1,19 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+		<title> 
+			Day 1
+		</title> 
+	</head> 
+	<body> 
+		<h1>Day 1 </h1> 
+		<button id ="click_me" onclick="bg_color_change()">Click me</button>
+		<script> 
+			function bg_color_change(){				
+				document.getElementById('click_me').addEventListener("click", ()=>{
+					document.body.style.backgroundColor = "blue";	
+				}); 
+			} 
+		</script> 
+	</body> 
+</html> 
