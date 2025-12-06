@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Day 3 - Color Palette Generator</title>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 50px;
+            text-align: center;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            margin-bottom: 30px;
+            cursor: pointer;
+        }
+        .palette {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .color-box {
+            width: 100px;
+            height: 100px;
+            border: 2px solid #333;
+            border-radius: 8px;
+        }
+        .color-code {
+            margin-top: 10px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Day 3 - Color Palette Generator</h1>
+    <button onclick="generatePalette()">Generate Palette</button>
+    
+    <div class="palette" id="palette">
+        <!-- Color boxes will be added here by JavaScript -->
+    </div>
+    
+    <script>
+        function generatePalette() {
+            // Your code here
+            // 1. Clear existing colors
+            // 2. Generate 5 random colors
+            // 3. Create boxes and display    
+            // what does innerHtml do exactly (doubt)
+        //how is the palete adding the new generated boxes in a row and not one after another (doubt)
+            document.getElementById('palette').innerHTML = " "; 
+            for(let i = 0; i < 5; i++){
+                // this is to access the 5 random colors. 
+                    let get_color = getRandomColor();
+                    // dount why do I create div and is this how I create elements dynamically.  
+                    const box = document.createElement("div");
+                    box.id = `box=${i}`;
+                    box.style.width = "100px";
+                    box.style.height = "100px";
+                    box.style.border = "1px solid black";
+                    box.style.margin = "5px"  
+                    box.style.backgroundColor = `${get_color}`; 
+                    box.textContent =`${get_color}`; 
+                    document.getElementById('palette').appendChild(box); 
+            }
+        }
+        
+        function getRandomColor() {
+            // Generate a random hex color
+            // Hint: '#' + random 6 digit hex number
+            const letters = "0123456789ABCDEF"; 
+            let color = "#"; 
+
+            for(let i = 0; i < 6; i++){
+                color += letters[Math.floor(Math.random() * 16)]; 
+            }
+
+            return color; 
+        } 
+        function clear_page(){
+         document.getElementById('palette').innerHTML = " ";    
+        }
+        // Generate palette on page load
+        clear_page()
+    </script>
+</body>
+</html>
