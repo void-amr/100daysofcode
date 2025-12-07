@@ -51,7 +51,7 @@
                 margin-bottom: 10px;
                 border-radius: 4px;
                 display: flex;
-                justify-content:space-evenly;
+                justify-content:space-between;
                 align-items: center;
             }
             .completed {
@@ -81,42 +81,29 @@
                 // 5. Clear the input
                 
                 const task_name = document.getElementById('taskInput').value;
+                const task = document.createElement('li');
 
-                if(task_name == ''){
-                    alert("Pleas enter some task");
-                    return; 
-                }    
+                // Checkbox
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.onclick = function() { toggleComplete(this); };
 
-                const task = document.createElement('li')
-                const span = document.createElement('span')
+                // Task text
+                const span = document.createElement('span');
+                span.textContent = task_name;
 
-                span.textContent = task_name; 
-                span.id = task_name; 
-                span.style.marginRight='100px'
+                // Delete button  
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.onclick = function() { deleteTask(this); };
 
-                const delete_btn = document.createElement('button')
-                delete_btn.textContent = 'Delete Task'
-                delete_btn.id = task_name; 
-                
-                delete_btn.className = 'delete-btn';
-
-                delete_btn.onclick = function(){
-                    deleteTask(this); 
-                }
-
-                const check_box = document.createElement('input')
-                check_box.type = 'checkbox'
-                check_box.id = task_name; 
-
-                check_box.onclick = function(){
-                    toggleComplete(this); 
-                }
-            
-                span.appendChild(check_box); 
-                span.appendChild(delete_btn); 
+                // Add all three as siblings inside li
+                task.appendChild(checkbox);
                 task.appendChild(span);
-                document.getElementById('taskList').appendChild(task); 
+                task.appendChild(deleteBtn);
 
+                document.getElementById('taskList').appendChild(task);
                 document.getElementById('taskInput').value =''; 
     
             }
@@ -131,7 +118,11 @@
             function toggleComplete(checkbox) {
                 // Add strikethrough when checked
                 const parent = checkbox.parentElement; 
-                parent.style.textDecoration = 'line-through';   
+                if (checkbox.checked) {
+                    parent.classList.add('completed');
+                } else {
+                    parent.classList.remove('completed');
+                }  
             }
             
         </script>
