@@ -1,0 +1,139 @@
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Day 4 - To-Do List</title>
+        <style>
+            body {
+                font-family: Arial;
+                padding: 50px;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+            h1 {
+                text-align: center;
+            }
+            .input-container {
+                display: flex;
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+            input {
+                flex: 1;
+                padding: 10px;
+                font-size: 16px;
+                border: 2px solid #ddd;
+                border-radius: 4px;
+            }
+            button {
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                border: none;
+                border-radius: 4px;
+            }
+            .add-btn {
+                background-color: #4CAF50;
+                color: white;
+            }
+            .delete-btn {
+                background-color: #f44336;
+                color: white;
+                padding: 5px 10px;
+                font-size: 14px;
+            }
+            ul {
+                list-style: none;
+                padding: 0;
+            }
+            li {
+                background: #f9f9f9;
+                padding: 15px;
+                margin-bottom: 10px;
+                border-radius: 4px;
+                display: flex;
+                justify-content:space-evenly;
+                align-items: center;
+            }
+            .completed {
+                text-decoration: line-through;
+                opacity: 0.6;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Day 4 - To-Do List</h1>
+        
+        <div class="input-container">
+            <input type="text" id="taskInput" placeholder="Enter a new task...">
+            <button class="add-btn" onclick="addTask()">Add Task</button>
+        </div>
+        <ul id="taskList">
+            <!-- Tasks will appear here -->
+        </ul>
+        
+        <script>
+            function addTask() {
+                // Your code here
+                // 1. Get the input value
+                // 2. Create a new list item (li)
+                // 3. Add task text and delete button
+                // 4. Append to the list
+                // 5. Clear the input
+                
+                const task_name = document.getElementById('taskInput').value;
+
+                if(task_name == ''){
+                    alert("Pleas enter some task");
+                    return; 
+                }    
+
+                const task = document.createElement('li')
+                const span = document.createElement('span')
+
+                span.textContent = task_name; 
+                span.id = task_name; 
+                span.style.marginRight='100px'
+
+                const delete_btn = document.createElement('button')
+                delete_btn.textContent = 'Delete Task'
+                delete_btn.id = task_name; 
+                
+                delete_btn.className = 'delete-btn';
+
+                delete_btn.onclick = function(){
+                    deleteTask(this); 
+                }
+
+                const check_box = document.createElement('input')
+                check_box.type = 'checkbox'
+                check_box.id = task_name; 
+
+                check_box.onclick = function(){
+                    toggleComplete(this); 
+                }
+            
+                span.appendChild(check_box); 
+                span.appendChild(delete_btn); 
+                task.appendChild(span);
+                document.getElementById('taskList').appendChild(task); 
+
+                document.getElementById('taskInput').value =''; 
+    
+            }
+            
+            function deleteTask(button) {
+                // Your code here
+                // Remove the task when delete is clicked  
+                button.parentElement.remove(); 
+            }
+            
+            // Bonus: function to toggle complete
+            function toggleComplete(checkbox) {
+                // Add strikethrough when checked
+                const parent = checkbox.parentElement; 
+                parent.style.textDecoration = 'line-through';   
+            }
+            
+        </script>
+    </body>
+    </html>
