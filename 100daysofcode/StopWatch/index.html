@@ -51,10 +51,6 @@
             background: #f44336;
             color: white;
         }
-        .updatedisplay {
-            background: lightblue;
-            color: white;
-        }
         button:hover {
             opacity: 0.8;
         }
@@ -68,46 +64,56 @@
             <button class="start" onclick="start()">Start</button>
             <button class="pause" onclick="pause()">Pause</button>
             <button class="reset" onclick="reset()">Reset</button>
-            <button class="updatedisplay" onclick="updateDisplay()">Display</button>
-            
         </div>
     </div>
     
     <script>
-        let timer = null;
-        let intervalId; 
+        let intervalId = null; 
         let seconds = 0;
         
         function start() {
             // Your code here
             // Start the timer if not already running
-            // Use setInterval to increment seconds every 1000ms
+            // Use setInterval to increment seconds eve
+           if(intervalId !== null) return; 
+
             intervalId = setInterval(function(){
                 seconds++;  
-                document.getElementById('display').textContent = seconds; 
+                updateDisplay(); 
             },1000)
         }2
         
         function pause() {
             // Your code here
             // Stop the timer
-            clearInterval(intervalId); 
+            clearInterval(intervalId);
+            intervalId = null; 
+            updateDisplay() 
         }
         
         function reset() {
             // Your code here
             // Stop timer and reset seconds to 0
             clearInterval(intervalId);
+            intervalId = null; 
             seconds = 0; 
+            updateDisplay(); 
           }
         
         function updateDisplay() {
             // Your code here
             // Convert seconds to HH:MM:SS format
             // Update the display element
-            clearInterval(intervalId); 
-            const result = new Date(seconds * 1000).toISOString().slice(11, 19)
-            document.getElementById('display').textContent = result;
+            let hrs = Math.floor(seconds/3600)
+            let mins = Math.floor((seconds % 3600)/60)
+            let secs = Math.floor(seconds%60)
+
+            let display = 
+            String(hrs).padStart(2, '0') + ':' +
+            String(mins).padStart(2, '0') + ':' +
+            String(secs).padStart(2, '0');
+
+            document.getElementById('display').textContent = display;
         }
 
         /**
