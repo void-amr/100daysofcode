@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Day 6 - Weather App</title>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 50px;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        input {
+            flex: 1;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+        button {
+            padding: 15px 30px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        .weather-info {
+            display: none;
+            margin-top: 30px;
+        }
+        .weather-info.show {
+            display: block;
+        }
+        .temp {
+            font-size: 48px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 20px 0;
+        }
+        .description {
+            font-size: 24px;
+            color: #666;
+            text-transform: capitalize;
+        }
+        .city {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .error {
+            color: #f44336;
+            margin-top: 20px;
+            display: none;
+        }
+        .error.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Day 6 - Weather App</h1>
+        
+        <div class="search-box">
+            <input type="text" id="cityInput" placeholder="Enter city name...">
+            <button onclick="getWeather()">Search</button>
+        </div>
+        
+        <div class="error" id="error">City not found. Try again.</div>
+        
+        <div class="weather-info" id="weatherInfo">
+            <div class="city" id="cityName"></div>
+            <div class="temp" id="temp"></div>
+            <div class="description" id="description"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Free API key from OpenWeatherMap
+        const API_KEY = '54631ebf2fbcd7650cfe88e8179d50d6'; // You'll need to get your own
+        
+        async function getWeather() {
+            console.log('Button is being clicked')
+            const city = document.getElementById('cityInput').value;
+            
+            if (city === '') {
+                alert('Please enter a city name');
+                return;
+            }
+            
+            // Your code here:
+            // 1. Build the API URL
+            // 2. Fetch data from API
+            // 3. Convert response to JSON
+            // 4. Display the data
+            // 5. Handle errors
+            const api_url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
+
+            try{
+                const response = await fetch(api_url)
+                const data = await response.json();
+                console.log(data.name)
+                
+                if(response.ok){              
+                    console.log(data)
+                    console.log('data is ready')      
+                    console.log('data is being fetched')
+                    displayWeather(data)                }
+                else{
+                    console.log('data not ready')
+                    throw new Error(`Http request status: ${response.status}`);
+                }
+            }
+            catch(error){
+                showError(error.message)
+            }
+        }
+        
+        function displayWeather(data) {
+            // Your code here:
+            // Extract temperature, description, city name
+            // Update the DOM elements
+            // Show the weather info div
+            document.getElementById('cityName').textContent = data.name; 
+            document.getElementById('temp').textContent = Math.round(data.main.temp) + '°C'; 
+            document.getElementById('description').textContent = data.weather[0].description;
+
+            document.getElementById('weatherInfo').classList.add('show'); 
+            document.getElementById('error').classList.add('show');     
+        }
+
+        function showError(error) {
+            
+            document.getElementById('weatherInfo').innerHTML = error; 
+
+            document.getElementById('error').classList.add('show');
+            document.getElementById('weatherInfo').classList.remove('show');
+        }
+        /*
+            doubts 
+
+            1. when I did data = response.json() 
+            I was getting undefined on data when I was accessing the data 
+            when I tried accessing entire json data it did give me the data but there where promise objects as well 
+            but when I added await in data it gives me json directly            
+
+            2. what is the use of async and await here and what is promise 
+        */
+    </script>
+</body>
+</html>
+x
