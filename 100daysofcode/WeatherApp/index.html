@@ -149,7 +149,7 @@
             document.getElementById('description').textContent = data.weather[0].description;
 
             document.getElementById('weatherInfo').classList.add('show'); 
-            document.getElementById('error').classList.add('show');     
+            document.getElementById('error').classList.remove('show');     
         }
 
         function showError(error) {
