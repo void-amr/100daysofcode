@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Day 7 - Quiz App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .quiz-container {
+            display: block;
+        }
+        .quiz-container.hide {
+            display: none;
+        }
+        .question {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .progress {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        .option {
+            padding: 15px;
+            background: #f5f5f5;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .option:hover {
+            background: #e8e8e8;
+        }
+        .option.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        .option.correct {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        .option.incorrect {
+            background: #f44336;
+            color: white;
+            border-color: #f44336;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .result-container {
+            display: none;
+            text-align: center;
+        }
+        .result-container.show {
+            display: block;
+        }
+        .score {
+            font-size: 48px;
+            color: #667eea;
+            margin: 30px 0;
+        }
+        .message {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Day 7 - Quiz App</h1>
+        
+        <!-- Quiz Screen -->
+        <div class="quiz-container" id="quizContainer">
+            <div class="progress" id="progress">Question 1 of 5</div>
+            <div class="question" id="question">Question text goes here</div>
+            <div class="options" id="options">
+                <!-- Options will be inserted here -->
+            </div>
+            <button id="nextBtn" onclick="nextQuestion()" disabled>Next Question</button>
+        </div>
+        
+        <!-- Result Screen -->
+        <div class="result-container" id="resultContainer">
+            <h2>Quiz Complete!</h2>
+            <div class="score" id="finalScore">0/5</div>
+            <div class="message" id="message">Great job!</div>
+            <button onclick="restartQuiz()" id ="restart">Restart Quiz</button>
+        </div>
+    </div>
+    
+    <script>
+        const questions = [
+            {
+                question: "What is the capital of France?",
+                options: ["London", "Berlin", "Paris", "Madrid"],
+                correct: 2
+            },
+            {
+                question: "Which planet is known as the Red Planet?",
+                options: ["Venus", "Mars", "Jupiter", "Saturn"],
+                correct: 1
+            },
+            {
+                question: "What is 2 + 2?",
+                options: ["3", "4", "5", "6"],
+                correct: 1
+            },
+            {
+                question: "Who painted the Mona Lisa?",
+                options: ["Van Gogh", "Picasso", "Da Vinci", "Monet"],
+                correct: 2
+            },
+            {
+                question: "What is the largest ocean?",
+                options: ["Atlantic", "Indian", "Arctic", "Pacific"],
+                correct: 3
+            }
+        ];
+        
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedAnswer = null;
+        
+        function startQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            showQuestion();
+        }
+        
+        function showQuestion() {
+            // TODO: Your code here
+
+            const q = questions[currentQuestion]
+
+            if(currentQuestion < 5){
+
+                document.getElementById('question').textContent = q.question; 
+                
+                document.getElementById('progress').textContent = 
+                `Question ${currentQuestion + 1} of ${questions.length}`;
+
+                document.getElementById('options').innerHTML = '';
+
+                q.options.forEach((option, index) => {
+                    const div = document.createElement('div')
+                    div.textContent = option; 
+                    div.className = 'option'
+                    div.onclick = ()=> selectOption(index)
+                    
+                    document.getElementById('options').appendChild(div)
+                }); 
+
+                selectedAnswer = null;
+                document.getElementById('nextBtn').disabled = true;
+            }
+            else {
+                showResults()
+            }
+        }
+        
+        function selectOption(index) {
+            // TODO: Your code here
+            selectedAnswer = index
+            
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            // Add selected to clicked one
+            document.querySelectorAll('.option')[index].classList.add('selected');
+            document.getElementById('nextBtn').disabled = false;
+        }
+        
+        function nextQuestion() {
+            // TODO: Your code here       
+            const q = questions[currentQuestion];
+            if(currentQuestion < 5) {
+
+            if(q.correct === selectedAnswer){ 
+                score++; 
+                currentQuestion++; 
+                showQuestion()  
+            }
+            else {
+                currentQuestion++;
+                showQuestion() 
+            }
+        }
+    }
+        
+        function showResults() {
+            // TODO: Your code here
+            document.getElementById('quizContainer').style.display = "none"
+            document.getElementById("resultContainer").style.display = "block"  
+            document.getElementById('finalScore').textContent = 
+                `Question ${score} of ${questions.length}`;
+            document.getElementById('restart').onclick = ()=> restartQuiz()
+            
+        }
+        
+        function restartQuiz() {
+            // TODO: Your code here
+            document.getElementById('quizContainer').style.display = "block"
+            document.getElementById("resultContainer").style.display = "none"  
+            startQuiz()
+        }
+        
+        startQuiz();
+    </script>
+</body>
+</html>
