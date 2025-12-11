@@ -238,7 +238,7 @@
                 return
             }
 
-            if( isNaN(amount) || amount < 0){
+            if( isNaN(amount) || amount <= 0){
                 alert("Please enter valid amount")
                 return
             }
@@ -255,7 +255,6 @@
 
             document.getElementById('description').value = ""
             document.getElementById('amount').value = ""
-            document.getElementById('type').value = ""
 
             saveToLocalStorage()
             displayTransactions();
@@ -266,6 +265,7 @@
         // remove the transaction with matching id
         transactions = transactions.filter(tx => tx.id !== id);
 
+        saveToLocalStorage(); 
         displayTransactions();
         updateSummary();
 }
@@ -329,11 +329,9 @@
 
             const balanace = incomeTotal - expenseTotal 
 
-            incomeEl.textContent = "$."+incomeTotal
-            expenseEl.textContent = "$."+ expenseTotal
-            balanceEl.textContent = "$."+ balanace 
-
-            saveToLocalStorage()
+            incomeEl.textContent = "$"+incomeTotal.toFixed(2)
+            expenseEl.textContent = "$."+ expenseTotal.toFixed(2)
+            balanceEl.textContent = "$."+ balanace.toFixed(2)
         }
         
         function saveToLocalStorage() {
