@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Day 8 - Expense Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .balance {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .balance h2 {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .balance-amount {
+            font-size: 36px;
+            font-weight: bold;
+            color: #333;
+        }
+        .summary {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .summary-item {
+            text-align: center;
+            flex: 1;
+        }
+        .summary-item h3 {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .income {
+            color: #4CAF50;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .expense {
+            color: #f44336;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .form-container {
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+            font-size: 14px;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        .transactions {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .transaction {
+            background: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid;
+        }
+        .transaction.income {
+            border-left-color: #4CAF50;
+        }
+        .transaction.expense {
+            border-left-color: #f44336;
+        }
+        .transaction-details {
+            flex: 1;
+        }
+        .transaction-text {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .transaction-amount {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .delete-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .delete-btn:hover {
+            background: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Day 8 - Expense Tracker</h1>
+        
+        <div class="balance">
+            <h2>Your Balance</h2>
+            <div class="balance-amount" id="balance">$0.00</div>
+        </div>
+        
+        <div class="summary">
+            <div class="summary-item">
+                <h3>Income</h3>
+                <div class="income" id="income">$0.00</div>
+            </div>
+            <div class="summary-item">
+                <h3>Expense</h3>
+                <div class="expense" id="expense">$0.00</div>
+            </div>
+        </div>
+        
+        <div class="form-container">
+            <div class="form-group">
+                <label>Description</label>
+                <input type="text" id="description" placeholder="Enter description..." required>
+            </div>
+            <div class="form-group">
+                <label>Amount</label>
+                <input type="number" id="amount" placeholder="Enter amount..." required>
+            </div>
+            <div class="form-group">
+                <label>Type</label>
+                <select id="type">
+                    <option value="income">Income</option>
+                    <option value="expense">Expense</option>
+                </select>
+            </div>
+            <button onclick="addTransaction()">Add Transaction</button>
+        </div>
+        
+        <h3 style="margin-bottom: 15px; color: #333;">Transaction History</h3>
+        <div class="transactions" id="transactions">
+            <!-- Transactions will appear here -->
+        </div>
+    </div>
+    
+    <script>
+        let transactions = [];
+        
+        // Load transactions from localStorage on page load
+        function loadTransactions() {
+            // TODO: Your code here
+            try {    
+                const raw = localStorage.getItem('transactions');
+            if (raw) {
+                    const parsed = JSON.parse(raw);
+                    // basic validation: ensure it's an array
+                    transactions = Array.isArray(parsed) ? parsed : [];
+                } else {
+                    transactions = [];
+                }
+            } catch (e) {
+                console.error('Failed to load transactions, starting fresh', e);
+                transactions = [];
+            }
+
+            displayTransactions()
+            updateSummary()
+            
+        }
+        
+        function addTransaction() {
+            // TODO: Your code here
+            // 1. Get form values
+            // 2. Validate input
+            // 3. Create transaction object with unique ID
+            // 4. Add to transactions array
+
+            // 5. Save to localStorage
+            // 6. Update display
+            // 7. Clear form
+            
+            const description = document.getElementById('description').value
+            const amount = parseFloat(document.getElementById('amount').value)
+            const type = document.getElementById('type').value
+
+            if(description === '' || amount === ''){
+                alert("Please enter valid data")
+                return
+            }
+
+            if( isNaN(amount) || amount < 0){
+                alert("Please enter valid amount")
+                return
+            }
+
+            const transaction = {
+                id: Date.now(),
+                description,  // same as description: description
+                amount,       // same as amount: amount
+                type          
+            };
+            
+            transactions.push(transaction);
+            console.log(transactions)
+
+            document.getElementById('description').value = ""
+            document.getElementById('amount').value = ""
+            document.getElementById('type').value = ""
+
+            saveToLocalStorage()
+            displayTransactions();
+            updateSummary(); 
+        }
+        
+        function deleteTransaction(id) {
+        // remove the transaction with matching id
+        transactions = transactions.filter(tx => tx.id !== id);
+
+        displayTransactions();
+        updateSummary();
+}
+        
+        function displayTransactions() {
+        const container = document.getElementById('transactions');
+        container.innerHTML = ""; // clear before rendering
+
+        transactions.forEach((tx) => {
+            // Parent wrapper
+            const div = document.createElement('div');
+            div.classList.add('transaction', tx.type); 
+            // gives: "transaction income" OR "transaction expense"
+
+            // Left side details
+            const details = document.createElement('div');
+            details.classList.add('transaction-details');
+
+            const text = document.createElement('div');
+            text.classList.add('transaction-text');
+            text.textContent = tx.description;
+
+            const amount = document.createElement('div');
+            amount.classList.add('transaction-amount');
+            amount.textContent = (tx.type === 'expense' ? "- " : "+ ") + "$" + tx.amount;
+
+            details.appendChild(text);
+            details.appendChild(amount);
+
+            // Delete button
+            const delBtn = document.createElement('button');
+            delBtn.classList.add('delete-btn');
+            delBtn.textContent = "Delete";
+            delBtn.onclick = () => deleteTransaction(tx.id);
+
+            // Append all into transaction box
+            div.appendChild(details);
+            div.appendChild(delBtn);
+
+            container.appendChild(div);
+    });
+}
+        
+        function updateSummary() {
+            // TODO: Your code here
+            // 1. Calculate total income
+            // 2. Calculate total expense
+            // 3. Calculate balance
+            // 4. Update display
+            const incomeEl = document.getElementById('income');
+            const expenseEl = document.getElementById('expense');
+            const balanceEl = document.getElementById('balance');
+
+            const incomeTotal = transactions
+            .filter(t => t.type === 'income')
+            .reduce((s, t) => s + Number(t.amount), 0);
+
+            const expenseTotal = transactions
+            .filter(t => t.type === 'expense')
+            .reduce((s, t) => s + Number(t.amount), 0);
+
+            const balanace = incomeTotal - expenseTotal 
+
+            incomeEl.textContent = "$."+incomeTotal
+            expenseEl.textContent = "$."+ expenseTotal
+            balanceEl.textContent = "$."+ balanace 
+
+            saveToLocalStorage()
+        }
+        
+        function saveToLocalStorage() {
+            // TODO: Your code here
+            try {
+                localStorage.setItem('transactions', JSON.stringify(transactions));
+            } catch (e) {
+                console.error('Failed to save to localStorage', e);
+            }
+        }
+        
+        // Initialize on page load
+        loadTransactions();
+    </script>
+</body>
+</html>
