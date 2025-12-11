@@ -182,32 +182,25 @@
 
             const q = questions[currentQuestion]
 
-            if(currentQuestion < 5){
-
-                document.getElementById('question').textContent = q.question; 
+            document.getElementById('question').textContent = q.question; 
                 
-                document.getElementById('progress').textContent = 
+            document.getElementById('progress').textContent = 
                 `Question ${currentQuestion + 1} of ${questions.length}`;
 
-                document.getElementById('options').innerHTML = '';
+            document.getElementById('options').innerHTML = '';
 
-                q.options.forEach((option, index) => {
-                    const div = document.createElement('div')
-                    div.textContent = option; 
-                    div.className = 'option'
-                    div.onclick = ()=> selectOption(index)
-                    
-                    document.getElementById('options').appendChild(div)
-                }); 
+            q.options.forEach((option, index) => {
+            const div = document.createElement('div')
+            div.textContent = option; 
+            div.className = 'option'
+            div.onclick = ()=> selectOption(index)       
+                 document.getElementById('options').appendChild(div)
+            }); 
 
                 selectedAnswer = null;
                 document.getElementById('nextBtn').disabled = true;
-            }
-            else {
-                showResults()
-            }
         }
-        
+                
         function selectOption(index) {
             // TODO: Your code here
             selectedAnswer = index
@@ -223,26 +216,29 @@
         function nextQuestion() {
             // TODO: Your code here       
             const q = questions[currentQuestion];
-            if(currentQuestion < 5) {
 
-            if(q.correct === selectedAnswer){ 
-                score++; 
-                currentQuestion++; 
-                showQuestion()  
+            if (q.correct === selectedAnswer) {
+                score++;
             }
-            else {
-                currentQuestion++;
-                showQuestion() 
+            
+            // Move to next
+            currentQuestion++;
+            
+            // Show next question or results
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResults();
             }
         }
-    }
+
         
         function showResults() {
             // TODO: Your code here
             document.getElementById('quizContainer').style.display = "none"
             document.getElementById("resultContainer").style.display = "block"  
             document.getElementById('finalScore').textContent = 
-                `Question ${score} of ${questions.length}`;
+                `Final Score ${score} of ${questions.length}`;
             document.getElementById('restart').onclick = ()=> restartQuiz()
             
         }
