@@ -235,18 +235,17 @@
         
         function showResults() {
             // TODO: Your code here
-            document.getElementById('quizContainer').style.display = "none"
-            document.getElementById("resultContainer").style.display = "block"  
+            document.getElementById('quizContainer').classList.add('hide');
+            document.getElementById('resultContainer').classList.add('show'); 
             document.getElementById('finalScore').textContent = 
-                `Final Score ${score} of ${questions.length}`;
-            document.getElementById('restart').onclick = ()=> restartQuiz()
+                `${score} of ${questions.length}`;
             
         }
         
         function restartQuiz() {
             // TODO: Your code here
-            document.getElementById('quizContainer').style.display = "block"
-            document.getElementById("resultContainer").style.display = "none"  
+            document.getElementById('quizContainer').classList.remove('hide');
+            document.getElementById('resultContainer').classList.remove('show');  
             startQuiz()
         }
         
