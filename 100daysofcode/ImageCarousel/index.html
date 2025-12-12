@@ -27,7 +27,9 @@
         height: 500px;
         object-fit: cover;
         display: block;
+        transition: opacity 0.5s ease-in-out; /* Add this */
         }
+
         .prev-btn, .next-btn {
             position: absolute;
             top: 50%;
@@ -77,6 +79,12 @@
     .dot.active {
         background: white;
     }
+
+    @media (max-width: 768px) {
+        #carouselImage {
+            height: 300px;
+        }
+    }
         /* You build the rest */
     </style>
 </head>
@@ -107,11 +115,22 @@
         function nextImage()
         {
             clearInterval(intervalId); 
+            console.log(intervalId)
             currentIndex++; 
             if(currentIndex == images.length){
                 currentIndex = 0; 
             }
             showImage(currentIndex)
+
+            intervalId = null
+            
+            intervalId = setInterval(() => {
+                currentIndex ++ 
+                if(currentIndex === images.length){
+                    currentIndex = 0;
+                }
+                showImage(currentIndex);
+            }, 3000); 
         }
 
         function prevImage()
@@ -124,6 +143,14 @@
                 currentIndex --; 
             }
             showImage(currentIndex)
+            
+            intervalId = setInterval(() => {
+                currentIndex -- 
+                if(currentIndex === 0){
+                    currentIndex = images.length;
+                }
+                showImage(currentIndex);
+            }, 3000); 
         }
 
         function autoUpdateImage()
@@ -135,13 +162,19 @@
                 }
                 showImage(currentIndex);
             }, 3000)
+
+            console.log(intervalId)
         }
 
         function showImage(currentIndex)
         {
             const img = document.getElementById('carouselImage')
-            img.src = images[currentIndex];
-            createDots() 
+            img.style.opacity = 0
+            setTimeout(()=>{
+                img.src = images[currentIndex];
+                img.style.opacity = 1
+            },500)
+            createDots()
         }
 
         function createDots() {
