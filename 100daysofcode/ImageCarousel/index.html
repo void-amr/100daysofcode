@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TechGear Product Carousel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial;
+            background: #f5f5f5;
+            padding: 50px 20px;
+        }
+        .carousel-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        #carouselImage {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+        display: block;
+        }
+        .prev-btn, .next-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .prev-btn {
+            left: 20px;
+        }
+
+        .next-btn {
+            right: 20px;
+        }
+
+        .prev-btn:hover, .next-btn:hover {
+            background: rgba(0,0,0,0.8);
+        }
+        .dots-container {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+    .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.5);
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .dot:hover {
+        background: rgba(255,255,255,0.8);
+    }
+
+    .dot.active {
+        background: white;
+    }
+        /* You build the rest */
+    </style>
+</head>
+<body>
+    <div class="carousel-container" >
+        <!-- Build carousel here -->
+            <img id="carouselImage" src="" alt="Product">
+                <button class="prev-btn" onclick="prevImage()">❮ Prev</button>
+                <button class="next-btn" onclick="nextImage()">Next ❯</button>
+            <div class="dots-container">
+            
+            </div>
+    </div>
+    
+    <script>
+        
+        let currentIndex = 0; 
+        let intervalId = null;
+
+        const images = [
+            'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800',
+            'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800',
+            'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800',
+            'https://images.unsplash.com/photo-1560343090-f0409e92791a?w=800',
+            'https://images.unsplash.com/photo-1525904097878-94fb15835963?w=800'
+        ];
+        
+        function nextImage()
+        {
+            clearInterval(intervalId); 
+            currentIndex++; 
+            if(currentIndex == images.length){
+                currentIndex = 0; 
+            }
+            showImage(currentIndex)
+        }
+
+        function prevImage()
+        {
+            clearInterval(intervalId)
+            if(currentIndex == 0){
+                currentIndex = images.length - 1; 
+            }
+            else{
+                currentIndex --; 
+            }
+            showImage(currentIndex)
+        }
+
+        function autoUpdateImage()
+        {
+            intervalId = setInterval(()=>{
+                currentIndex ++ 
+                if(currentIndex === images.length){
+                    currentIndex = 0;
+                }
+                showImage(currentIndex);
+            }, 3000)
+        }
+
+        function showImage(currentIndex)
+        {
+            const img = document.getElementById('carouselImage')
+            img.src = images[currentIndex];
+            createDots() 
+        }
+
+        function createDots() {
+            const container = document.querySelector('.dots-container');
+            container.innerHTML = '';
+            
+            images.forEach((img, index) => {
+                const dot = document.createElement('span');
+                dot.classList.add('dot');
+                if (index === currentIndex) {
+                    dot.classList.add('active');
+                }
+                dot.onclick = () => goToSlide(index);
+                container.appendChild(dot);
+            });
+        }
+
+        function goToSlide(index) {
+            clearInterval(intervalId);
+            currentIndex = index;
+            showImage(currentIndex);
+            createDots();
+        }
+        showImage(currentIndex); 
+        autoUpdateImage(); 
+        // Your code here
+    </script>
+</body>
+</html>
