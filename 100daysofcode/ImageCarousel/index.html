@@ -145,9 +145,9 @@
             showImage(currentIndex)
             
             intervalId = setInterval(() => {
-                currentIndex -- 
-                if(currentIndex === 0){
-                    currentIndex = images.length;
+                currentIndex ++
+                if(currentIndex === images.length){
+                    currentIndex = 0
                 }
                 showImage(currentIndex);
             }, 3000); 
@@ -197,9 +197,10 @@
             currentIndex = index;
             showImage(currentIndex);
             createDots();
+            autoUpdateImage()
         }
         showImage(currentIndex); 
-        autoUpdateImage(); 
+        autoUpdateImage
         // Your code here
     </script>
 </body>
