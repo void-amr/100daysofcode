@@ -60,14 +60,14 @@
       color: #444;
     }
 
-    /* Buttons */
     #buttonarea {
-      display: flex;
-      gap: 12px;
-    }
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
 
     button {
-      flex: 1;
+      flex: 1 1 calc(50% - 6px); /* Two buttons per row */
       padding: 12px;
       border: none;
       border-radius: 8px;
@@ -177,11 +177,12 @@
     }
     
     function copyToClipBoard() {
-        const q = document.getElementById('quote').textContent
-        navigator.clipboard.writeText(q)
-        alert('Text Copied' + q);
-    }
-
+                if (!currentQuote) return;
+                
+                const text = `"${currentQuote.quote}" — ${currentQuote.author}`;
+                navigator.clipboard.writeText(text);
+                alert('Quote copied to clipboard!');
+        }
     getQuote();
   </script>
 </body>
