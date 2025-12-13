@@ -95,6 +95,7 @@
     <div id="buttonarea">
       <button onclick="getQuote()">New Quote</button>
       <button onclick="tweetQuote()">Tweet</button>
+      <button onclick="copyToClipBoard()">Copy to Clipboard</button>
     </div>
   </div>
 
@@ -174,8 +175,14 @@
         "_blank"
       );
     }
+    
+    function copyToClipBoard() {
+        const q = document.getElementById('quote').textContent
+        navigator.clipboard.writeText(q)
+        alert('Text Copied' + q);
+    }
 
-    getQuote()
+    getQuote();
   </script>
 </body>
 </html>
